@@ -1,9 +1,11 @@
 import React from 'react'
-import { TextField, Grid, Paper, Typography, Table, TableBody, rows, TableCell, TableRow } from '@material-ui/core';
+import { TextField, Grid, Paper, Typography, Table, TableBody, rows, TableCell, TableRow, Button } from '@material-ui/core';
 import useStyles from './Styles';
+import axios from 'axios';
 
 const Inputcard = () => {
     const classes = useStyles();
+    const [post, setPost] = React.useState(null);
 
     return (
         <main className={classes.content}>
@@ -18,10 +20,13 @@ const Inputcard = () => {
                 <Paper>
                     <Grid container justify="center" spacing={2}>
                     <Grid item>
-                        <TextField id="outlined-basic" label="Hourly Pay Rate" variant="outlined" />
+                        <TextField id="hourPay" label="Hourly Pay Rate" variant="outlined" />
                     </Grid>
                     <Grid item>
-                        <TextField id="outlined-basic" label="Hours worked per week" variant="outlined" />
+                        <TextField id="hoursWorked" label="Hours worked per week" variant="outlined" />
+                    </Grid>
+                    <Grid item>
+                        <Button onClick={onSubmit} variant="contained">Submit</Button>
                     </Grid>
                     </Grid>
                 </Paper>
@@ -91,6 +96,25 @@ const Inputcard = () => {
             </Grid>
         </main>
     )
+
+    
+
+    function onSubmit()
+    {
+        let request = {
+            hourlyPay: 12,
+            hoursWorked: 12
+        }
+        axios.post('http://localhost:3000/submit', request)
+        .then((response) => {
+            setPost(response.data);
+            console.log(post.paycheck)
+        });
+        if (!post) return "No post!"
+    };
+    
 }
+
+
 
 export default Inputcard
