@@ -11,5 +11,10 @@
     "url": "Shellhacks2021"
   },
   "author": "George Bush and Andrew Keegan",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "-": "0.0.1",
+    "express": "^4.17.1",
+    "save": "^2.4.0"
+  }
 }
