@@ -5,7 +5,13 @@ app.listen(3000, function () {
 })
 
 
-app.get('/submit', function(req,res)
+app.get('/', function(req,res)
 {
-    res.status(200).send({message:"hello"})
+    var spawn = require("child_process").spawn;
+
+    var process = spawn('python', ['calculations.py', req.query.hourlyPay, req.query.hoursWorked])
+
+    process.stdout.on('data', function (data) {
+        res.send(data.toString());
+      });
 })
