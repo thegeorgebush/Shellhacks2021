@@ -1,17 +1,65 @@
 var express = require('express');
+var createError = require('http-errors')
 var app = express();
-app.listen(3000, function () {
-  console.log('server running on port 3000');
+
+app.use(express.json());
+
+var cors = require('cors');
+
+// use it before all route definitions
+app.use(cors({origin: 'http://localhost:3000'}));
+
+//app.get("/", (req, res) => res.send("Hello World!!!"));
+
+app.listen(5000, function () {
+  console.log('server running on port 5000');
 })
 
 
-app.get('/', function(req,res)
-{
-    var spawn = require("child_process").spawn;
 
-    var process = spawn('python', ['calculations.py', req.query.hourlyPay, req.query.hoursWorked])
+app.post('/', (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  console.log(req.body);
+  var spawn = require("child_process").spawn;
+
+    var process = spawn('python', ['./calculations.py', 
+      req.query.hourlyPay, 
+      req.query.hoursWorked
+    ]);
 
     process.stdout.on('data', function (data) {
         res.send(data.toString());
       });
-})
+});
+
+//app.get('/', callCalculations);
+
+function callCalculations(req, res)
+{
+  /*
+    var spawn = require("child_process").spawn;
+
+    var process = spawn('python', ['./calculations.py', 
+      req.query.hourlyPay, 
+      req.query.hoursWorked
+    ]);
+
+    process.stdout.on('data', function (data) {
+        res.send(data.toString());
+      });
+      */
+}
+
+/*
+// Error Handling
+app.use((req, res, next) => {
+  next(createError(404));
+});
+
+app.use(function (err, req, res, next) {
+  console.error(err.message);
+  if (!err.statusCode) err.statusCode = 500;
+  res.status(err.statusCode).send(err.message);
+});
+
+*/

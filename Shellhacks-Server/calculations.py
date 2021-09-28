@@ -22,7 +22,7 @@ paycheck= ((reg_hours*pay_rate)+(ot*ot_rate))*2
 gross_income = paycheck *(26)
 gross_income_1 =float(gross_income) 
 
-print('gross income: ', gross_income)
+#print('gross income: ', gross_income)
 
 #tax estimations
 #used to check if elif below

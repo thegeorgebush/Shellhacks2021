@@ -14,7 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "-": "0.0.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "http-errors": "^1.8.0",
     "save": "^2.4.0"
   }
 }
