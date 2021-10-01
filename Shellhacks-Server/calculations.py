@@ -2,6 +2,7 @@ import sys
 
 pay_rate = float(sys.argv[1])
 ot_rate = pay_rate * 1.5
+#print("payrate ", pay_rate)
 
 hours = float(sys.argv[2])
 
@@ -46,7 +47,7 @@ bracket_6 =523600
 
 
 if gross_income_1 < bracket_1:
-    fed_tax = bracket_1 * gross_income_1
+    fed_tax = tax_1 * gross_income_1
 elif gross_income_1 < bracket_2:
     fed_tax = tax_2 * (gross_income_1 - bracket_1) + tax_1*(bracket_1)
 elif gross_income_1 < bracket_3:
@@ -72,11 +73,11 @@ net_income = gross_income_1-fed_tax-entitlements
 
 
 results = {
-'paycheck': paycheck,
-'grossIncome': gross_income_1,
-'tax': fed_tax,
-'entitlements': entitlements,
-'netIncome': net_income
+"paycheck": paycheck,
+"grossIncome": gross_income_1,
+"tax": fed_tax,
+"entitlements": entitlements,
+"netIncome": net_income
 }
 
 print(str(results))

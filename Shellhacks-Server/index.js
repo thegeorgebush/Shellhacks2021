@@ -7,9 +7,9 @@ app.use(express.json());
 var cors = require('cors');
 
 // use it before all route definitions
-app.use(cors({origin: 'http://localhost:3000'}));
+app.use(cors({origin: '*'}));
 
-//app.get("/", (req, res) => res.send("Hello World!!!"));
+app.get("/", (req, res) => res.send("Hello World!!!"));
 
 app.listen(5000, function () {
   console.log('server running on port 5000');
@@ -17,7 +17,7 @@ app.listen(5000, function () {
 
 
 
-app.post('/', (req, res) => {
+app.post('/submit', (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   console.log(req.body);
   var spawn = require("child_process").spawn;
@@ -28,7 +28,12 @@ app.post('/', (req, res) => {
     ]);
 
     process.stdout.on('data', function (data) {
-        res.send(data.toString());
+        //console.log(data.toString())
+        //console.log(data.toString());
+        //var perosonObject = JSON.parse(data.toString())
+        //console.log(perosonObject)
+        res.json(JSON.stringify(data.toString()));
+        //res.send(data.toString());
       });
 });
 
