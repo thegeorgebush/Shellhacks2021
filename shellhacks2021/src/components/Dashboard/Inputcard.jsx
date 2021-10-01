@@ -2,10 +2,62 @@ import React from 'react'
 import { TextField, Grid, Paper, Typography, Table, TableBody, rows, TableCell, TableRow, Button } from '@material-ui/core';
 import useStyles from './Styles';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+import grossIncomeCard from './grossIncomeCard';
+
+const api = axios.create({
+    baseURL: 'http://localhost3000/'
+})
 
 const Inputcard = () => {
     const classes = useStyles();
-    const [post, setPost] = React.useState(null);
+    const [post, setPost] = useState([]);
+    const [grossIncome, setGrossIncome] = useState('');
+
+    const postAxios = async () => {
+        let request = {
+            hourlyPay: 12,
+            hoursWorked: 12
+        }
+        const response = await axios.post('http://localhost:5000/', request)
+        console.log(response);
+        if(!response) console.log("no response");
+    }
+
+    function onSubmit(event) {
+        event.preventDefault();
+        postAxios();
+    };
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const request = {
+                    hourlyPay: "12",
+                    hoursWorked: "12"
+                }
+                const response = await axios.post('http://localhost:5000/submit', request, {params: {hourlyPay: "12",
+                hoursWorked: "12"}})
+                setPost(JSON.stringify(response.data));
+                setGrossIncome(post.grossIncome)
+                console.log(response)
+                console.log("POST OUTPUT: ", post)
+
+                console.log("gross income: ", post.grossIncome)
+            } catch (err) {
+                if(err.response){
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
+                } else {
+                    console.log(`Error: ${err.message}`) 
+                }
+            }
+        }
+
+        fetchPosts();
+    }, [])
 
     return (
         <main className={classes.content}>
@@ -37,9 +89,7 @@ const Inputcard = () => {
                 sm={8}
                 md={3}
                 >
-                <Paper>
-                    <h1>$1500</h1>
-                </Paper>
+                    <grossIncomeCard grossIncome={post.grossIncome} />
                 </Grid>
             </Grid>
             <Grid container justify="center" spacing={2}>
@@ -96,23 +146,6 @@ const Inputcard = () => {
             </Grid>
         </main>
     )
-
-    
-
-    function onSubmit()
-    {
-        let request = {
-            hourlyPay: 12,
-            hoursWorked: 12
-        }
-        axios.post('http://localhost:3000/submit', request)
-        .then((response) => {
-            setPost(response.data);
-            console.log(post.paycheck)
-        });
-        if (!post) return "No post!"
-    };
-    
 }
 
 
